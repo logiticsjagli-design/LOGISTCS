@@ -1,0 +1,1095 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAGLI LOGISTICS - Soluciones Logísticas en Veracruz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #f39c12;
+            --light: transparent;
+            --dark: #1a252f;
+            --overlay: rgba(0, 0, 0, 0.5);
+            --light-overlay: rgba(255, 255, 255, 0.85);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            background-color: #f5f5f5;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Panel lateral */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: var(--dark);
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .side-panel.active {
+            left: 0;
+        }
+        
+        .side-panel ul {
+            list-style: none;
+            margin-top: 30px;
+        }
+        
+        .side-panel ul li {
+            margin-bottom: 15px;
+        }
+        
+        .side-panel ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        .side-panel ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Menú hamburguesa */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            cursor: pointer;
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .menu-toggle i {
+            font-size: 1.5rem;
+        }
+        
+        /* Header con efecto parallax */
+        .header-parallax {
+            background-image: url('https://citynews-bolognatoday.stgy.ovh/~media/original-hi/43308412713190/logistica-da-innovalab-2024-le-sfide-per-il-futuro.jpg');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .header-parallax::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 85%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            color: white;
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: color 0.3s;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+        
+    
+    /* Estilos actualizados para el carrusel */
+    .carousel {
+        position: relative;
+        width: 100%;
+        height: 100vh; /* Ocupa toda la altura de la pantalla */
+        overflow: hidden;
+    }
+    
+    .carousel-inner {
+        display: flex;
+        width: 300%;
+        height: 100%;
+        transition: transform 0.5s ease;
+    }
+    
+    .carousel-item {
+        width: 33.333%;
+        height: 100%;
+        position: relative;
+    }
+    
+    .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    
+    .carousel-caption {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        padding: 30px;
+        background-color: rgba(0,0,0,0.6);
+        border-radius: 10px;
+        max-width: 80%;
+        color: white;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: var(--secondary);
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+    }
+    
+    .carousel-caption p {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
+    
+    .carousel-caption .cta-button {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: var(--secondary);
+        color: var(--primary);
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    
+    .carousel-caption .cta-button:hover {
+        background-color: #e67e22;
+    }
+    
+    .carousel-controls {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+        padding: 0 20px;
+        z-index: 10;
+    }
+    
+    .carousel-control {
+        background-color: rgba(0,0,0,0.5);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: white;
+        transition: background-color 0.3s;
+    }
+    
+    .carousel-control:hover {
+        background-color: rgba(0,0,0,0.8);
+    }
+    
+    .carousel-indicators {
+        position: absolute;
+        bottom: 30px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        z-index: 10;
+    }
+    
+    .indicator {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: rgba(255,255,255,0.5);
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .indicator.active {
+        background-color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .carousel-caption h2 {
+            font-size: 2rem;
+        }
+        
+        .carousel-caption p {
+            font-size: 1.1rem;
+        }
+        
+        .carousel-caption {
+            padding: 20px;
+            width: 90%;
+        }
+    }
+
+        
+        /* Secciones con efecto parallax */
+        .parallax-section {
+            width: 100%;
+            padding: 80px 0;
+            background-image: url('https://citynews-bolognatoday.stgy.ovh/~media/original-hi/43308412713190/logistica-da-innovalab-2024-le-sfide-per-il-futuro.jpg');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .parallax-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay);
+        }
+        
+        .parallax-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Sección Sobre Nosotros con parallax */
+        .about-section {
+            width: 100%;
+            padding: 80px 0;
+            background-image: url('https://citynews-bolognatoday.stgy.ovh/~media/original-hi/43308412713190/logistica-da-innovalab-2024-le-sfide-per-il-futuro.jpg');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--light-overlay);
+        }
+        
+        .about-container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Sección Servicios con parallax */
+        .services-section {
+            width: 100%;
+            padding: 80px 0;
+            background-image: url('https://citynews-bolognatoday.stgy.ovh/~media/original-hi/43308412713190/logistica-da-innovalab-2024-le-sfide-per-il-futuro.jpg');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .services-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay);
+        }
+        
+        .services-container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Nueva sección de imágenes */
+        .image-gallery {
+            width: 100%;
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .gallery-container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            height: 250px;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.4);
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .gallery-caption h3 {
+            color: white;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        .gallery-caption p {
+            color: #f1f1f1;
+            font-size: 0.9rem;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+        }
+        
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary);
+            margin: 15px auto;
+        }
+        
+        /* Sobre Nosotros */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-height: 400px;
+            object-fit: cover;
+        }
+        
+        .values {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        
+        .value-item {
+            text-align: center;
+            width: 200px;
+            margin: 15px;
+        }
+        
+        /* Servicios */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 25px;
+            border-radius: 5px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            color: white;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        /* Contacto con parallax */
+        .contact {
+            background-image: url('https://citynews-bolognatoday.stgy.ovh/~media/original-hi/43308412713190/logistica-da-innovalab-2024-le-sfide-per-il-futuro.jpg');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            padding: 80px 0;
+        }
+        
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay);
+        }
+        
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+            color: white;
+        }
+        
+        .contact-info h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .contact-text a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .contact-text a:hover {
+            color: var(--secondary);
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255,255,255,0.9);
+        }
+        
+        .submit-btn {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #e67e22;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            padding: 30px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 15px;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .footer-links {
+            margin: 20px 0;
+        }
+        
+        .footer-links a {
+            color: var(--secondary);
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+            }
+            
+            .carousel-caption h2 {
+                font-size: 1.8rem;
+            }
+            
+            .carousel-caption p {
+                font-size: 1rem;
+            }
+            
+            .about-content, .contact-container {
+                flex-direction: column;
+            }
+            
+            .about-text, .contact-form {
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+            
+            .menu-toggle {
+                top: 15px;
+                left: 15px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <!-- Panel lateral -->
+        <div class="side-panel" id="sidePanel">
+            <div class="close-btn" id="closePanel"><i class="fas fa-times"></i></div>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#nosotros">Sobre Nosotros</a></li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="https://facebook.com/jaglilogistics" target="_blank">Facebook</a></li>
+                <li><a href="https://instagram.com/jaglilogistics" target="_blank">Instagram</a></li>
+            </ul>
+        </div>
+        
+        <!-- Menú hamburguesa -->
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        
+        <!-- Header con efecto parallax -->
+        <div class="header-parallax">
+            <div class="header-container">
+                <div class="logo">
+                    <img src="logo.jpeg" alt="JAGLI LOGISTICS">
+                    <h1>JAGLI LOGISTICS Y ASSOCIATES S.A. DE C.V.</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#nosotros">Sobre Nosotros</a></li>
+                        <li><a href="#galeria">Galería</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+         <!-- Carrusel con imágenes -->
+<div class="carousel" id="inicio">
+    <div class="carousel-inner" id="carouselInner">
+        <div class="carousel-item">
+            <img src="vista_buques.jpeg" alt="Transporte JAGLI">
+            <div class="carousel-caption">
+                <h2>Soluciones Logísticas Integrales</h2>
+                <p>"Tu carga, nuestra ruta. Tu confianza, nuestro motor"</p>
+                <a href="#contacto" class="cta-button">Cotiza ahora</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="montacargas.jpeg" alt="Almacenamiento">
+            <div class="carousel-caption">
+                <h2>Almacenamiento Seguro</h2>
+                <p>Espacios diseñados para tus necesidades logísticas</p>
+                <a href="#contacto" class="cta-button">Más información</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="grua.jpeg" alt="Distribución">
+            <div class="carousel-caption">
+                <h2>Distribución Eficiente</h2>
+                <p>Llegamos a donde necesites en Veracruz y más allá</p>
+                <a href="#contacto" class="cta-button">Contáctanos</a>
+            </div>
+        </div>
+    </div>
+    <div class="carousel-controls">
+        <div class="carousel-control" id="prevBtn"><i class="fas fa-chevron-left"></i></div>
+        <div class="carousel-control" id="nextBtn"><i class="fas fa-chevron-right"></i></div>
+    </div>
+    <div class="carousel-indicators">
+        <div class="indicator active" data-slide="0"></div>
+        <div class="indicator" data-slide="1"></div>
+        <div class="indicator" data-slide="2"></div>
+    </div>
+</div>
+
+        <!-- Sección Parallax intro -->
+        <div class="parallax-section">
+            <div class="container parallax-content">
+                <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 20px; color: var(--secondary);">Logística Innovadora para el Futuro</h2>
+                <p style="text-align: center; font-size: 1.2rem; max-width: 800px; margin: 0 auto; color: white;">En JAGLI LOGISTICS combinamos tecnología de punta con experiencia en el sector para ofrecer soluciones que superan tus expectativas.</p>
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="#contacto" class="submit-btn">Contáctanos</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sobre Nosotros (sección con parallax) -->
+        <section class="about-section" id="nosotros">
+            <div class="container about-container">
+                <h2 class="section-title" style="color: var(--primary);">Sobre Nosotros</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Misión</h3>
+                        <p>"Ofrecer soluciones logísticas confiables, rápidas y personalizadas que conectan empresas y regiones en México, garantizando puntualidad, seguridad y transparencia en cada envío."</p>
+                        
+                        <h3>Visión</h3>
+                        <p>"Ser líderes en logística integral en México, reconocidos por innovación, calidad de servicio y compromiso con el cliente."</p>
+                        
+                        <h3>Historia</h3>
+                        <p>"Fundada en Veracruz por Julián Guerrero Téllez, JAGLI LOGISTICS combina experiencia en transporte con soluciones personalizadas para cadenas de suministro."</p>
+                        
+                        <div class="values">
+                            <div class="value-item">
+                                <i class="fas fa-handshake service-icon"></i>
+                                <h4>Compromiso</h4>
+                            </div>
+                            <div class="value-item">
+                                <i class="fas fa-lightbulb service-icon"></i>
+                                <h4>Innovación</h4>
+                            </div>
+                            <div class="value-item">
+                                <i class="fas fa-users service-icon"></i>
+                                <h4>Orientación al cliente</h4>
+                            </div>
+                            <div class="value-item">
+                                <i class="fas fa-people-carry service-icon"></i>
+                                <h4>Trabajo en equipo</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="grua2.jpeg" alt="Equipo JAGLI LOGISTICS">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Servicios (sección con parallax) -->
+        <section class="services-section" id="servicios">
+            <div class="container services-container">
+                <h2 class="section-title">Nuestros Servicios</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-truck"></i></div>
+                        <h3>Transporte de Carga</h3>
+                        <p>Local y nacional con seguimiento en tiempo real</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-warehouse"></i></div>
+                        <h3>Almacenamiento</h3>
+                        <p>Espacios seguros y gestión eficiente</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-boxes"></i></div>
+                        <h3>Soluciones Comerciales</h3>
+                        <p>Personalizadas para tu negocio</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <h3>Monitoreo en Tiempo Real</h3>
+                        <p>Rastreo GPS de tus envíos</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nueva sección de imágenes -->
+        <section class="image-gallery" id="galeria">
+            <div class="gallery-container">
+                <h2 class="section-title" style="color: var(--primary);">Nuestro Trabajo</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="vista_buques.jpeg" alt="Transporte JAGLI">
+                        <div class="gallery-caption">
+                            <h3>Transporte de Carga</h3>
+                            <p>Soluciones integrales para tus necesidades</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="montacargas.jpeg" alt="Almacenamiento">
+                        <div class="gallery-caption">
+                            <h3>Almacenamiento Seguro</h3>
+                            <p>Espacios diseñados para tu mercancía</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="grua.jpeg" alt="Distribución">
+                        <div class="gallery-caption">
+                            <h3>Manejo de Carga</h3>
+                            <p>Equipo especializado para tus necesidades</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="descargando.jpeg" alt="Operaciones">
+                        <div class="gallery-caption">
+                            <h3>Operaciones Eficientes</h3>
+                            <p>Procesos optimizados para tu negocio</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="cargando.jpeg" alt="Logística">
+                        <div class="gallery-caption">
+                            <h3>Logística Integral</h3>
+                            <p>Soluciones completas para tu cadena de suministro</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="g..jpg" alt="Tecnología">
+                        <div class="gallery-caption">
+                            <h3>Tecnología Avanzada</h3>
+                            <p>Sistemas de seguimiento y monitoreo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contacto con parallax -->
+        <section class="contact" id="contacto">
+            <div class="container">
+                <h2 class="section-title">Contacto</h2>
+                <div class="contact-container">
+                    <div class="contact-form">
+                        <form>
+                            <input type="text" placeholder="Nombre" required>
+                            <input type="email" placeholder="Email" required>
+                            <input type="tel" placeholder="Teléfono">
+                            <textarea placeholder="Mensaje" rows="5" required></textarea>
+                            <button type="submit" class="submit-btn">Enviar mensaje</button>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <h3>Contáctanos</h3>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-text">
+                                <a href="tel:+522291201895">229 120 1895</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-text">
+                                <a href="https://wa.me/522291201895" target="_blank">WhatsApp</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <a href="mailto:logisticsjagli@gmail.com">logisticsjagli@gmail.com</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <a href="https://www.google.com/maps/dir/18.8843968,-96.8750903/19.18871,-96.1395/@18.9657476,-96.672606,11z/data=!3m1!4b1!4m4!4m3!1m1!4e1!1m0!5m2!1e1!1e4?entry=ttu&g_ep=EgoyMDI1MDgwNC4wIKXMDSoASAFQAw%3D%3D" target="_blank">Maps Veracruz, Veracruz México 91899</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fab fa-facebook-f"></i>
+                            </div>
+                            <div class="contact-text">
+                                <a href="https://www.facebook.com/profile.php?id=61578332412089&sk=about" target="_blank">Facebook</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div class="contact-text">
+                                <a href="https://instagram.com/jaglilogistics" target="_blank">Instagram</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="logo">
+                    <img src="logo.jpeg" alt="JAGLI LOGISTICS" style="height: 40px;">
+                </div>
+                <p>"Tu carga, nuestra ruta. Tu confianza, nuestro motor"</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61578332412089&sk=about" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/jaglilogistics" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="mailto:logisticsjagli@gamil.com"><i class="fas fa-envelope"></i></a>
+                    <a href="tel:+522291201895"><i class="fas fa-phone"></i></a>
+                    <a href="https://wa.me/522291201895" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.google.com/maps/dir/18.8843968,-96.8750903/19.18871,-96.1395/@18.9657476,-96.672606,11z/data=!3m1!4b1!4m4!4m3!1m1!4e1!1m0!5m2!1e1!1e4?entry=ttu&g_ep=EgoyMDI1MDgwNC4wIKXMDSoASAFQAw%3D%3D" target="_blank"><i class="fas fa-map-marker-alt"></i></a>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Política de privacidad</a>
+                    <a href="#">Términos y condiciones</a>
+                </div>
+                <p>© 2025 JAGLI LOGISTICS. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Panel lateral
+     // Panel lateral
+        const menuToggle = document.getElementById('menuToggle');
+        const sidePanel = document.getElementById('sidePanel');
+        const closePanel = document.getElementById('closePanel');
+        
+        menuToggle.addEventListener('click', () => {
+            sidePanel.classList.add('active');
+        });
+        
+        closePanel.addEventListener('click', () => {
+            sidePanel.classList.remove('active');
+        });
+        
+        // Carrusel
+        const carouselInner = document.getElementById('carouselInner');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicators = document.querySelectorAll('.indicator');
+        
+        let currentIndex = 0;
+        const totalSlides = 3;
+        
+        function updateCarousel() {
+            carouselInner.style.transform = `translateX(-${currentIndex * 33.333}%)`;
+            
+            indicators.forEach((indicator, index) => {
+                if (index === currentIndex) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+        
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        });
+        
+        indicators.forEach(indicator => {
+            indicator.addEventListener('click', () => {
+                currentIndex = parseInt(indicator.getAttribute('data-slide'));
+                updateCarousel();
+            });
+        });
+        
+        // Auto slide
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        }, 5000);
+    </script>
+</body>
+</html>
